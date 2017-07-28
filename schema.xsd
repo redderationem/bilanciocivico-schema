@@ -1,0 +1,401 @@
+<?xml version="1.0"?>
+<xs:schema elementFormDefault="qualified" targetNamespace="http://www.redderationem.org/bilanciocivico" xmlns:tns="http://www.redderationem.org/bilanciocivico" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<!------------------------------------------------------------------------------------------------------------------
+	  -- Documento completo
+	  ----------------------------------------------------------------------------------------------------------------->
+	<xs:element name="all">
+		<xs:complexType>
+			<xs:sequence>
+				<!------------------------------------------------------------------------------------------------------
+				  -- Tipi
+				  -- 
+				  -- Le seguenti definizioni sono validae per tutti gli elementi omonimi eventualmente inclusi nei tipi.
+				  --
+				  -- code: codice del tipo
+				  -- description: descrizione del tipo
+				  -- isExpense: il tipo definisce una classificazione rilevante per le spese
+				  -- isRevenue: il tipo definisce una classificazione rilevante per le entrate
+				  -- isSummary: il tipo definisce una classificazione rilevante nel calcolare gli aggregati riassuntivi
+				  -- del bilancio
+				  ----------------------------------------------------------------------------------------------------->
+				<!-- Tipo di atto (es. determina o delibera) -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="actType">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="code" type="xs:string"/>
+							<xs:element name="description" type="xs:string"/>
+							<xs:element name="isExpense" type="xs:boolean"/>
+							<xs:element name="isRevenue" type="xs:boolean"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- Tipo di classificazione gestionale diversa per tutti gli enti (ad es. capitolo o articolo) -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="customSubdivisionType">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="code" type="xs:string"/>
+							<xs:element name="description" type="xs:string"/>
+							<xs:element name="isExpense" type="xs:boolean"/>
+							<xs:element name="isRevenue" type="xs:boolean"/>
+							<xs:element name="isSummary" type="xs:boolean"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- Tipo di esercizio (es. l'ultima revisione delle disposizioni per l'ordinamento ex 118/11) -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="cycleType">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="code" type="xs:string"/>
+							<xs:element name="description" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- Tipo di classificazione autorizzatoria uguale per tutti gli enti (es. missione o programma) -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="divisionType">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="code" type="xs:string"/>
+							<xs:element name="description" type="xs:string"/>
+							<xs:element name="isExpense" type="xs:boolean"/>
+							<xs:element name="isRevenue" type="xs:boolean"/>
+							<xs:element name="isSummary" type="xs:boolean"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- Tipo di classificazione gestionale uguale per tutti gli enti (es. macroaggregato o tipologia nel piano dei conti) -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="officialSubdivisionType">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="code" type="xs:string"/>
+							<xs:element name="description" type="xs:string"/>
+							<xs:element name="isExpense" type="xs:boolean"/>
+							<xs:element name="isRevenue" type="xs:boolean"/>
+							<xs:element name="isSummary" type="xs:boolean"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- Tipo di soggetto (es. debitore o creditore) -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="subjectType">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="code" type="xs:string"/>
+							<xs:element name="description" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- Tipo di operazione (es. accertamento o impegno) -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="transactionType">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="code" type="xs:string"/>
+							<xs:element name="description" type="xs:string"/>
+							<xs:element name="isExpense" type="xs:boolean"/>
+							<xs:element name="isRevenue" type="xs:boolean"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!------------------------------------------------------------------------------------------------------
+				  -- Dati
+				  -- Le seguenti definizioni sono valida per tutti gli elementi omonimi eventualmente incluse nei dati.
+				  --
+				  -- [dato]TypeCode: codice del tipo del dato
+				  -- [dato]Code: codice del dato
+				  -- approvedAmount: importo impegnato o accertato del dato
+				  -- code: codice del dato
+				  -- date: data dell'atto o del dato
+				  -- description: descrizione del dato
+				  -- estimatedAmount: importo previsto per il dato
+				  -- name: ragione sociale
+				  -- parent[dato]Code: codice del livello superiore nell'albero del dato
+				  -- payedAmount: importo effettivamente pagato o incassato
+				  -- taxCode: codice fiscale
+				  -- vatNumber: partita iva
+				  ----------------------------------------------------------------------------------------------------->
+				<!-- Atto -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="act">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="actTypeCode" type="xs:string"/>
+							<xs:element name="code" type="xs:string"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="cycleCode" type="xs:string"/>
+							<xs:element name="date" type="xs:date"/>
+							<xs:element name="description" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- Codice CIG -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="cigCode">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="code" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- Codice CUP -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="cupCode">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="code" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- Classificazione gestionale diversa per tutti gli enti -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="customSubdivision">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element minOccurs="0" name="approvedAmount" type="xs:integer"/>
+							<xs:element name="code" type="xs:string"/>
+							<xs:element name="customSubdivisionTypeCode" type="xs:string"/>
+							<xs:element name="cycleCode" type="xs:string"/>
+							<xs:element name="description" type="xs:string"/>
+							<xs:element minOccurs="0" name="divisionCode" type="xs:string"/>
+							<xs:element minOccurs="0" name="estimatedAmount" type="xs:integer"/>
+							<xs:element minOccurs="0" name="officialSubdivisionCode" type="xs:string"/>
+							<xs:element minOccurs="0" name="parentCustomSubdivisionCode" type="xs:string"/>
+							<xs:element minOccurs="0" name="payedAmount" type="xs:integer"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- Esercizio -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="cycle">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="code" type="xs:string"/>
+							<xs:element name="cycleTypeCode" type="xs:string"/>
+							<xs:element name="description" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- Classificazione autorizzatoria uguale per tutti gli enti -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="division">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element minOccurs="0" name="approvedAmount" type="xs:integer"/>
+							<xs:element name="code" type="xs:string"/>
+							<xs:element name="cycleCode" type="xs:string"/>
+							<xs:element name="description" type="xs:string"/>
+							<xs:element name="divisionTypeCode" type="xs:string"/>
+							<xs:element minOccurs="0" name="estimatedAmount" type="xs:integer"/>
+							<xs:element minOccurs="0" name="parentDivisionCode" type="xs:string"/>
+							<xs:element minOccurs="0" name="payedAmount" type="xs:integer"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- Classificazione gestionale uguale per tutti gli enti -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="officialSubdivision">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element minOccurs="0" name="approvedAmount" type="xs:integer"/>
+							<xs:element name="code" type="xs:string"/>
+							<xs:element name="cycleCode" type="xs:string"/>
+							<xs:element name="description" type="xs:string"/>
+							<xs:element minOccurs="0" name="estimatedAmount" type="xs:integer"/>
+							<xs:element name="officialSubdivisionTypeCode" type="xs:string"/>
+							<xs:element minOccurs="0" name="parentOfficialSubdivisionCode" type="xs:string"/>
+							<xs:element minOccurs="0" name="payedAmount" type="xs:integer"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- Soggetto -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="subject">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="code" type="xs:string"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="cycleCode" type="xs:string"/>
+							<xs:element name="name" type="xs:string"/>
+							<xs:element name="subjectTypeCode" type="xs:string"/>
+							<xs:element minOccurs="0" name="taxCode" type="xs:string"/>
+							<xs:element minOccurs="0" name="vatNumber" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- Operazione -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="transaction">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element minOccurs="0" name="actCode" type="xs:string"/>
+							<xs:element name="approvedAmount" type="xs:integer"/>
+							<xs:element minOccurs="0" name="cigCodeCode" type="xs:string"/>
+							<xs:element name="code" type="xs:string"/>
+							<xs:element minOccurs="0" name="cupCodeCode" type="xs:string"/>
+							<xs:element minOccurs="0" name="customSubdivisionCode" type="xs:string"/>
+							<xs:element name="cycleCode" type="xs:string"/>
+							<xs:element name="date" type="xs:date"/>
+							<xs:element name="description" type="xs:string"/>
+							<xs:element minOccurs="0" name="divisionCode" type="xs:string"/>
+							<xs:element minOccurs="0" name="payedAmount" type="xs:integer"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="subjectCode" type="xs:string"/>
+							<xs:element name="transactionTypeCode" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+		<!--------------------------------------------------------------------------------------------------------------
+		  -- Chiavi primarie
+		  ------------------------------------------------------------------------------------------------------------->
+		<xs:key name="actCodeKey">
+			<xs:selector xpath="./tns:act/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="actTypeCodeKey">
+			<xs:selector xpath="./tns:actType/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="cigCodeCodeKey">
+			<xs:selector xpath="./tns:cigCode/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="cupCodeCodeKey">
+			<xs:selector xpath="./tns:cupCode/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="customSubdivisionCodeKey">
+			<xs:selector xpath="./tns:customSubdivision/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="customSubdivisionTypeCodeKey">
+			<xs:selector xpath="./tns:customSubdivisionType/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="cycleCodeKey">
+			<xs:selector xpath="./tns:cycle/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="cycleTypeCodeKey">
+			<xs:selector xpath="./tns:cycleType/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="divisionCodeKey">
+			<xs:selector xpath="./tns:division/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="divisionTypeCodeKey">
+			<xs:selector xpath="./tns:divisionType/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="officialSubdivisionCodeKey">
+			<xs:selector xpath="./tns:officialSubdivision/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="officialSubdivisionTypeCodeKey">
+			<xs:selector xpath="./tns:officialSubdivisionType/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="subjectCodeKey">
+			<xs:selector xpath="./tns:subject/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="subjectTypeCodeKey">
+			<xs:selector xpath="./tns:subjectType/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="transactionCodeKey">
+			<xs:selector xpath="./tns:transaction/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="transactionTypeCodeKey">
+			<xs:selector xpath="./tns:transactionType/tns:code"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<!--------------------------------------------------------------------------------------------------------------
+		  -- Chiavi esterne
+		  ------------------------------------------------------------------------------------------------------------->
+		<xs:keyref name="actActTypeCodeKeyref" refer="tns:actTypeCodeKey">
+			<xs:selector xpath="./tns:act/tns:actTypeCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="actCycleCodeKeyref" refer="tns:cycleCodeKey">
+			<xs:selector xpath="./tns:act/tns:cycleCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="customSubdivisionCustomSubdivisionTypeCodeKeyref" refer="tns:customSubdivisionTypeCodeKey">
+			<xs:selector xpath="./tns:customSubdivision/tns:customSubdivisionTypeCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="customSubdivisionCycleCodeKeyref" refer="tns:cycleCodeKey">
+			<xs:selector xpath="./tns:customSubdivision/tns:cycleCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="customSubdivisionDivisionCodeKeyref" refer="tns:divisionCodeKey">
+			<xs:selector xpath="./tns:transaction/tns:divisionCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="customSubdivisionOfficialSubdivisionCodeKeyref" refer="tns:officialSubdivisionCodeKey">
+			<xs:selector xpath="./tns:transaction/tns:officialSubdivisionCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="customSubdivisionParentCustomSubdivisionCodeKeyref" refer="tns:customSubdivisionCodeKey">
+			<xs:selector xpath="./tns:customSubdivision/tns:parentCustomSubdivisionCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="cycleCycleTypeCodeKeyref" refer="tns:cycleTypeCodeKey">
+			<xs:selector xpath="./tns:cycle/tns:cycleTypeCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="divisionCycleCodeKeyref" refer="tns:cycleCodeKey">
+			<xs:selector xpath="./tns:division/tns:cycleCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="divisionDivisionTypeCodeKeyref" refer="tns:divisionTypeCodeKey">
+			<xs:selector xpath="./tns:division/tns:divisionTypeCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="divisionParentDivisionCodeKeyref" refer="tns:divisionCodeKey">
+			<xs:selector xpath="./tns:division/tns:parentDivisionCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="officialSubdivisionCycleCodeKeyref" refer="tns:cycleCodeKey">
+			<xs:selector xpath="./tns:officialSubdivision/tns:cycleCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="officialSubdivisionOfficialSubdivisionTypeCodeKeyref" refer="tns:officialSubdivisionTypeCodeKey">
+			<xs:selector xpath="./tns:officialSubdivision/tns:officialSubdivisionTypeCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="officialSubdivisionParentOfficialSubdivisionCodeKeyref" refer="tns:officialSubdivisionCodeKey">
+			<xs:selector xpath="./tns:officialSubdivision/tns:parentOfficialSubdivisionCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="subjectCycleCodeKeyref" refer="tns:cycleCodeKey">
+			<xs:selector xpath="./tns:subject/tns:cycleCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="subjectSubjectTypeCodeKeyref" refer="tns:subjectTypeCodeKey">
+			<xs:selector xpath="./tns:subject/tns:subjectTypeCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="transactionActCodeKeyref" refer="tns:actCodeKey">
+			<xs:selector xpath="./tns:transaction/tns:actCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="transactionCigCodeCodeKeyref" refer="tns:cigCodeCodeKey">
+			<xs:selector xpath="./tns:transaction/tns:cigCodeCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="transactionCupCodeCodeKeyref" refer="tns:cupCodeCodeKey">
+			<xs:selector xpath="./tns:transaction/tns:cupCodeCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="transactionCustomSubdivisionCodeKeyref" refer="tns:customSubdivisionCodeKey">
+			<xs:selector xpath="./tns:transaction/tns:customSubdivisionCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="transactionCycleCodeKeyref" refer="tns:cycleCodeKey">
+			<xs:selector xpath="./tns:transaction/tns:cycleCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="transactionDivisionCodeKeyref" refer="tns:divisionCodeKey">
+			<xs:selector xpath="./tns:transaction/tns:divisionCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="transactionSubjectCodeKeyref" refer="tns:subjectCodeKey">
+			<xs:selector xpath="./tns:transaction/tns:subjectCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+		<xs:keyref name="transactionTransactionTypeCodeKeyref" refer="tns:transactionTypeCodeKey">
+			<xs:selector xpath="./tns:transaction/tns:transactionTypeCode"/>
+			<xs:field xpath="."/>
+		</xs:keyref>
+	</xs:element>
+</xs:schema>
