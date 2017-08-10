@@ -1,401 +1,430 @@
 <?xml version="1.0"?>
-<xs:schema elementFormDefault="qualified" targetNamespace="http://www.redderationem.org/bilanciocivico" xmlns:tns="http://www.redderationem.org/bilanciocivico" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<!------------------------------------------------------------------------------------------------------------------
-	  -- Documento completo
-	  ----------------------------------------------------------------------------------------------------------------->
-	<xs:element name="all">
+<xs:schema
+	elementFormDefault="qualified"
+	targetNamespace="http://www.redderationem.org/bilanciocivico"
+	xmlns:tns="http://www.redderationem.org/bilanciocivico"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<!-- Dati da importare -->
+	<xs:element name="data">
 		<xs:complexType>
 			<xs:sequence>
-				<!------------------------------------------------------------------------------------------------------
-				  -- Tipi
-				  -- 
-				  -- Le seguenti definizioni sono validae per tutti gli elementi omonimi eventualmente inclusi nei tipi.
-				  --
-				  -- code: codice del tipo
-				  -- description: descrizione del tipo
-				  -- isExpense: il tipo definisce una classificazione rilevante per le spese
-				  -- isRevenue: il tipo definisce una classificazione rilevante per le entrate
-				  -- isSummary: il tipo definisce una classificazione rilevante nel calcolare gli aggregati riassuntivi
-				  -- del bilancio
-				  ----------------------------------------------------------------------------------------------------->
-				<!-- Tipo di atto (es. determina o delibera) -->
+				<!-- Tipo di atto -->
 				<xs:element maxOccurs="unbounded" minOccurs="0" name="actType">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string"/>
-							<xs:element name="description" type="xs:string"/>
-							<xs:element name="isExpense" type="xs:boolean"/>
-							<xs:element name="isRevenue" type="xs:boolean"/>
-						</xs:sequence>
+						<!-- Codice -->
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<!-- Descrizione -->
+						<xs:attribute name="description" type="xs:string" use="required"/>
+						<!-- Uscita? -->
+						<xs:attribute name="isExpense" type="xs:boolean" use="required"/>
+						<!-- Entrata? -->
+						<xs:attribute name="isRevenue" type="xs:boolean" use="required"/>
 					</xs:complexType>
 				</xs:element>
-				<!-- Tipo di classificazione gestionale diversa per tutti gli enti (ad es. capitolo o articolo) -->
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="customSubdivisionType">
+				<!-- Tipo di voce dello schema di bilancio -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="balanceSheetItemType">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string"/>
-							<xs:element name="description" type="xs:string"/>
-							<xs:element name="isExpense" type="xs:boolean"/>
-							<xs:element name="isRevenue" type="xs:boolean"/>
-							<xs:element name="isSummary" type="xs:boolean"/>
-						</xs:sequence>
+						<!-- Codice -->
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<!-- Descrizione -->
+						<xs:attribute name="description" type="xs:string" use="required"/>
+						<!-- Uscita? -->
+						<xs:attribute name="isExpense" type="xs:boolean" use="required"/>
+						<!-- Extra (fpv, avanzo..)? -->
+						<xs:attribute name="isExtra" type="xs:boolean" use="required"/>
+						<!-- Principale? -->
+						<xs:attribute name="isMain" type="xs:boolean" use="required"/>
+						<!-- Entrata? -->
+						<xs:attribute name="isRevenue" type="xs:boolean" use="required"/>
 					</xs:complexType>
 				</xs:element>
-				<!-- Tipo di esercizio (es. l'ultima revisione delle disposizioni per l'ordinamento ex 118/11) -->
+				<!-- Tipo di voce del piano dei conti finanziario -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="chartOfAccountItemType">
+					<xs:complexType>
+						<!-- Codice -->
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<!-- Descrizione -->
+						<xs:attribute name="description" type="xs:string" use="required"/>
+						<!-- Uscita? -->
+						<xs:attribute name="isExpense" type="xs:boolean" use="required"/>
+						<!-- Principale? -->
+						<xs:attribute name="isMain" type="xs:boolean" use="required"/>
+						<!-- Entrata? -->
+						<xs:attribute name="isRevenue" type="xs:boolean" use="required"/>
+					</xs:complexType>
+				</xs:element>
+				<!-- Tipo di esercizio -->
 				<xs:element maxOccurs="unbounded" minOccurs="0" name="cycleType">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string"/>
-							<xs:element name="description" type="xs:string"/>
-						</xs:sequence>
+						<!-- Codice -->
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<!-- Descrizione -->
+						<xs:attribute name="description" type="xs:string" use="required"/>
 					</xs:complexType>
 				</xs:element>
-				<!-- Tipo di classificazione autorizzatoria uguale per tutti gli enti (es. missione o programma) -->
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="divisionType">
+				<!-- Tipo di voce del piano esecutivo di gestione -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="executiveManagementPlanItemType">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string"/>
-							<xs:element name="description" type="xs:string"/>
-							<xs:element name="isExpense" type="xs:boolean"/>
-							<xs:element name="isRevenue" type="xs:boolean"/>
-							<xs:element name="isSummary" type="xs:boolean"/>
-						</xs:sequence>
+						<!-- Codice -->
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<!-- Descrizione -->
+						<xs:attribute name="description" type="xs:string" use="required"/>
+						<!-- Uscita? -->
+						<xs:attribute name="isExpense" type="xs:boolean" use="required"/>
+						<!-- Principale? -->
+						<xs:attribute name="isMain" type="xs:boolean" use="required"/>
+						<!-- Entrata? -->
+						<xs:attribute name="isRevenue" type="xs:boolean" use="required"/>
 					</xs:complexType>
 				</xs:element>
-				<!-- Tipo di classificazione gestionale uguale per tutti gli enti (es. macroaggregato o tipologia nel piano dei conti) -->
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="officialSubdivisionType">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string"/>
-							<xs:element name="description" type="xs:string"/>
-							<xs:element name="isExpense" type="xs:boolean"/>
-							<xs:element name="isRevenue" type="xs:boolean"/>
-							<xs:element name="isSummary" type="xs:boolean"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<!-- Tipo di soggetto (es. debitore o creditore) -->
+				<!-- Tipo di soggetto -->
 				<xs:element maxOccurs="unbounded" minOccurs="0" name="subjectType">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string"/>
-							<xs:element name="description" type="xs:string"/>
-						</xs:sequence>
+						<!-- Codice -->
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<!-- Descrizione -->
+						<xs:attribute name="description" type="xs:string" use="required"/>
 					</xs:complexType>
 				</xs:element>
-				<!-- Tipo di operazione (es. accertamento o impegno) -->
+				<!-- Tipo di operazione -->
 				<xs:element maxOccurs="unbounded" minOccurs="0" name="transactionType">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string"/>
-							<xs:element name="description" type="xs:string"/>
-							<xs:element name="isExpense" type="xs:boolean"/>
-							<xs:element name="isRevenue" type="xs:boolean"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<!------------------------------------------------------------------------------------------------------
-				  -- Dati
-				  -- Le seguenti definizioni sono valida per tutti gli elementi omonimi eventualmente incluse nei dati.
-				  --
-				  -- [dato]TypeCode: codice del tipo del dato
-				  -- [dato]Code: codice del dato
-				  -- approvedAmount: importo impegnato o accertato del dato
-				  -- code: codice del dato
-				  -- date: data dell'atto o del dato
-				  -- description: descrizione del dato
-				  -- estimatedAmount: importo previsto per il dato
-				  -- name: ragione sociale
-				  -- parent[dato]Code: codice del livello superiore nell'albero del dato
-				  -- payedAmount: importo effettivamente pagato o incassato
-				  -- taxCode: codice fiscale
-				  -- vatNumber: partita iva
-				  ----------------------------------------------------------------------------------------------------->
-				<!-- Atto -->
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="act">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="actTypeCode" type="xs:string"/>
-							<xs:element name="code" type="xs:string"/>
-							<xs:element maxOccurs="unbounded" minOccurs="0" name="cycleCode" type="xs:string"/>
-							<xs:element name="date" type="xs:date"/>
-							<xs:element name="description" type="xs:string"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<!-- Codice CIG -->
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="cigCode">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<!-- Codice CUP -->
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="cupCode">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<!-- Classificazione gestionale diversa per tutti gli enti -->
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="customSubdivision">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element minOccurs="0" name="approvedAmount" type="xs:integer"/>
-							<xs:element name="code" type="xs:string"/>
-							<xs:element name="customSubdivisionTypeCode" type="xs:string"/>
-							<xs:element name="cycleCode" type="xs:string"/>
-							<xs:element name="description" type="xs:string"/>
-							<xs:element minOccurs="0" name="divisionCode" type="xs:string"/>
-							<xs:element minOccurs="0" name="estimatedAmount" type="xs:integer"/>
-							<xs:element minOccurs="0" name="officialSubdivisionCode" type="xs:string"/>
-							<xs:element minOccurs="0" name="parentCustomSubdivisionCode" type="xs:string"/>
-							<xs:element minOccurs="0" name="payedAmount" type="xs:integer"/>
-						</xs:sequence>
+						<!-- Codice -->
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<!-- Descrizione -->
+						<xs:attribute name="description" type="xs:string" use="required"/>
+						<!-- Uscita? -->
+						<xs:attribute name="isExpense" type="xs:boolean" use="required"/>
+						<!-- Entrata? -->
+						<xs:attribute name="isRevenue" type="xs:boolean" use="required"/>
 					</xs:complexType>
 				</xs:element>
 				<!-- Esercizio -->
 				<xs:element maxOccurs="unbounded" minOccurs="0" name="cycle">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string"/>
-							<xs:element name="cycleTypeCode" type="xs:string"/>
-							<xs:element name="description" type="xs:string"/>
-						</xs:sequence>
+						<!-- Codice -->
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<!-- Codice del tipo di esercizio -->
+						<xs:attribute name="cycleTypeCode" type="xs:string" use="required"/>
+						<!-- Descrizione -->
+						<xs:attribute name="description" type="xs:string" use="required"/>
 					</xs:complexType>
 				</xs:element>
-				<!-- Classificazione autorizzatoria uguale per tutti gli enti -->
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="division">
+				<!-- Atto -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="act">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element minOccurs="0" name="approvedAmount" type="xs:integer"/>
-							<xs:element name="code" type="xs:string"/>
-							<xs:element name="cycleCode" type="xs:string"/>
-							<xs:element name="description" type="xs:string"/>
-							<xs:element name="divisionTypeCode" type="xs:string"/>
-							<xs:element minOccurs="0" name="estimatedAmount" type="xs:integer"/>
-							<xs:element minOccurs="0" name="parentDivisionCode" type="xs:string"/>
-							<xs:element minOccurs="0" name="payedAmount" type="xs:integer"/>
-						</xs:sequence>
+						<!-- Codice del tipo di atto -->
+						<xs:attribute name="actTypeCode" type="xs:string" use="required"/>
+						<!-- Codice -->
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<!-- Data -->
+						<xs:attribute name="date" type="xs:date" use="required"/>
+						<!-- Descrizione -->
+						<xs:attribute name="description" type="xs:string" use="required"/>
 					</xs:complexType>
 				</xs:element>
-				<!-- Classificazione gestionale uguale per tutti gli enti -->
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="officialSubdivision">
+				<!-- Voce dello schema di bilancio -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="balanceSheetItem">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element minOccurs="0" name="approvedAmount" type="xs:integer"/>
-							<xs:element name="code" type="xs:string"/>
-							<xs:element name="cycleCode" type="xs:string"/>
-							<xs:element name="description" type="xs:string"/>
-							<xs:element minOccurs="0" name="estimatedAmount" type="xs:integer"/>
-							<xs:element name="officialSubdivisionTypeCode" type="xs:string"/>
-							<xs:element minOccurs="0" name="parentOfficialSubdivisionCode" type="xs:string"/>
-							<xs:element minOccurs="0" name="payedAmount" type="xs:integer"/>
-						</xs:sequence>
+						<!-- Codice della voce dello schema di bilancio -->
+						<xs:attribute name="balanceSheetItemCode" type="xs:string"/>
+						<!-- Codice del tipo di voce dello schema di bilancio -->
+						<xs:attribute name="balanceSheetItemTypeCode" type="xs:string" use="required"/>
+						<!-- Codice -->
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<!-- Importo riscosso o pagato -->
+						<xs:attribute name="collectedOrPayedAmount" type="xs:integer"/>
+						<!-- Codice dell'esercizio -->
+						<xs:attribute name="cycleCode" type="xs:string" use="required"/>
+						<!-- Descrizione -->
+						<xs:attribute name="description" type="xs:string" use="required"/>
+						<!-- Importo accertato o impegnato -->
+						<xs:attribute name="establishedOrCommittedAmount" type="xs:integer"/>
+						<!-- Importo previsto -->
+						<xs:attribute name="estimatedAmount" type="xs:integer"/>
+					</xs:complexType>
+				</xs:element>
+				<!-- Voce del piano dei conti finanziario -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="chartOfAccountItem">
+					<xs:complexType>
+						<!-- Codice della voce del piano dei conti finanziario -->
+						<xs:attribute name="chartOfAccountItemCode" type="xs:string"/>
+						<!-- Codice del tipo di voce del piano dei conti finanziario -->
+						<xs:attribute name="chartOfAccountItemTypeCode" type="xs:string" use="required"/>
+						<!-- Codice -->
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<!-- Importo riscosso o pagato -->
+						<xs:attribute name="collectedOrPayedAmount" type="xs:integer"/>
+						<!-- Codice dell'esercizio -->
+						<xs:attribute name="cycleCode" type="xs:string" use="required"/>
+						<!-- Descrizione -->
+						<xs:attribute name="description" type="xs:string" use="required"/>
+						<!-- Importo accertato o impegnato -->
+						<xs:attribute name="establishedOrCommittedAmount" type="xs:integer"/>
+						<!-- Importo previsto -->
+						<xs:attribute name="estimatedAmount" type="xs:integer"/>
+					</xs:complexType>
+				</xs:element>
+				<!-- Voce del piano esecutivo di gestione -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="executiveManagementPlanItem">
+					<xs:complexType>
+						<!-- Codice della voce dello schema di bilancio -->
+						<xs:attribute name="balanceSheetItemCode" type="xs:string"/>
+						<!-- Codice della voce del piano dei conti finanziario -->
+						<xs:attribute name="chartOfAccountItemCode" type="xs:string"/>
+						<!-- Codice -->
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<!-- Importo riscosso o pagato -->
+						<xs:attribute name="collectedOrPayedAmount" type="xs:integer"/>
+						<!-- Codice dell'esercizio -->
+						<xs:attribute name="cycleCode" type="xs:string" use="required"/>
+						<!-- Descrizione -->
+						<xs:attribute name="description" type="xs:string" use="required"/>
+						<!-- Importo accertato o impegnato -->
+						<xs:attribute name="establishedOrCommittedAmount" type="xs:integer"/>
+						<!-- Importo previsto -->
+						<xs:attribute name="estimatedAmount" type="xs:integer"/>
+						<!-- Codice della voce del piano esecutivo di gestione -->
+						<xs:attribute name="executiveManagementPlanItemCode" type="xs:string"/>
+						<!-- Codice del tipo di voce del piano esecutivo di gestione -->
+						<xs:attribute name="executiveManagementPlanItemTypeCode" type="xs:string" use="required"/>
 					</xs:complexType>
 				</xs:element>
 				<!-- Soggetto -->
 				<xs:element maxOccurs="unbounded" minOccurs="0" name="subject">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="code" type="xs:string"/>
-							<xs:element maxOccurs="unbounded" minOccurs="0" name="cycleCode" type="xs:string"/>
-							<xs:element name="name" type="xs:string"/>
-							<xs:element name="subjectTypeCode" type="xs:string"/>
-							<xs:element minOccurs="0" name="taxCode" type="xs:string"/>
-							<xs:element minOccurs="0" name="vatNumber" type="xs:string"/>
-						</xs:sequence>
+						<!-- Codice -->
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<!-- Nome -->
+						<xs:attribute name="name" type="xs:string" use="required"/>
+						<!-- Codice del tipo di soggetto -->
+						<xs:attribute name="subjectTypeCode" type="xs:string" use="required"/>
+						<!-- Codice fiscale -->
+						<xs:attribute name="taxCode" type="xs:string"/>
+						<!-- Partita IVA -->
+						<xs:attribute name="vatNumber" type="xs:string"/>
 					</xs:complexType>
 				</xs:element>
 				<!-- Operazione -->
 				<xs:element maxOccurs="unbounded" minOccurs="0" name="transaction">
 					<xs:complexType>
-						<xs:sequence>
-							<xs:element minOccurs="0" name="actCode" type="xs:string"/>
-							<xs:element name="approvedAmount" type="xs:integer"/>
-							<xs:element minOccurs="0" name="cigCodeCode" type="xs:string"/>
-							<xs:element name="code" type="xs:string"/>
-							<xs:element minOccurs="0" name="cupCodeCode" type="xs:string"/>
-							<xs:element minOccurs="0" name="customSubdivisionCode" type="xs:string"/>
-							<xs:element name="cycleCode" type="xs:string"/>
-							<xs:element name="date" type="xs:date"/>
-							<xs:element name="description" type="xs:string"/>
-							<xs:element minOccurs="0" name="divisionCode" type="xs:string"/>
-							<xs:element minOccurs="0" name="payedAmount" type="xs:integer"/>
-							<xs:element maxOccurs="unbounded" minOccurs="0" name="subjectCode" type="xs:string"/>
-							<xs:element name="transactionTypeCode" type="xs:string"/>
-						</xs:sequence>
+						<!-- Codice dell'atto -->
+						<xs:attribute name="actCode" type="xs:string"/>
+						<!-- Codice della voce dello schema di bilancio -->
+						<xs:attribute name="balanceSheetItemCode" type="xs:string"/>
+						<!-- Codice della voce del piano dei conti finanziario -->
+						<xs:attribute name="chartOfAccountItemCode" type="xs:string"/>
+						<!-- Codice -->
+						<xs:attribute name="code" type="xs:string" use="required"/>
+						<!-- Importo riscosso o pagato -->
+						<xs:attribute name="collectedOrPayedAmount" type="xs:integer"/>
+						<!-- Codice dell'esercizio -->
+						<xs:attribute name="cycleCode" type="xs:string" use="required"/>
+						<!-- Data -->
+						<xs:attribute name="date" type="xs:date" use="required"/>
+						<!-- Importo impegnato o accertato -->
+						<xs:attribute name="establishedOrCommittedAmount" type="xs:integer"/>
+						<!-- Codice della voce del piano esecutivo di gestione -->
+						<xs:attribute name="executiveManagementPlanItemCode" type="xs:string"/>
+						<!-- Descrizione -->
+						<xs:attribute name="description" type="xs:string" use="required"/>
+						<!-- Codice del tipo di operazione -->
+						<xs:attribute name="transactionTypeCode" type="xs:string" use="required"/>
+					</xs:complexType>
+				</xs:element>
+				<!-- Collegamento tra atto ed esercizio -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="actCycle">
+					<xs:complexType>
+						<!-- Codice dell'atto -->
+						<xs:attribute name="actCode" type="xs:string" use="required"/>
+						<!-- Importo riscosso o pagato -->
+						<xs:attribute name="collectedOrPayedAmount" type="xs:integer"/>
+						<!-- Codice dell'esercizio -->
+						<xs:attribute name="cycleCode" type="xs:string" use="required"/>
+						<!-- Importo impegnato o accertato -->
+						<xs:attribute name="establishedOrCommittedAmount" type="xs:integer"/>
+					</xs:complexType>
+				</xs:element>
+				<!-- Collegamento tra esercizio e soggetto -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="cycleSubject">
+					<xs:complexType>
+						<!-- Importo riscosso o pagato -->
+						<xs:attribute name="collectedOrPayedAmount" type="xs:integer"/>
+						<!-- Codice dell'esercizio -->
+						<xs:attribute name="cycleCode" type="xs:string" use="required"/>
+						<!-- Importo accertato o impegnato -->
+						<xs:attribute name="establishedOrCommittedAmount" type="xs:integer"/>
+						<!-- Codice del soggetto -->
+						<xs:attribute name="subjectCode" type="xs:string" use="required"/>
+					</xs:complexType>
+				</xs:element>
+				<!-- Collegamento tra soggetto e operazione -->
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="subjectTransaction">
+					<xs:complexType>
+						<!-- Importo riscosso o pagato -->
+						<xs:attribute name="collectedOrPayedAmount" type="xs:integer"/>
+						<!-- Importo accertato o impegnato -->
+						<xs:attribute name="establishedOrCommittedAmount" type="xs:integer"/>
+						<!-- Codice del soggetto -->
+						<xs:attribute name="subjectCode" type="xs:string" use="required"/>
+						<!-- Codice dell'operazione -->
+						<xs:attribute name="transactionCode" type="xs:string" use="required"/>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
-		<!--------------------------------------------------------------------------------------------------------------
-		  -- Chiavi primarie
-		  ------------------------------------------------------------------------------------------------------------->
 		<xs:key name="actCodeKey">
-			<xs:selector xpath="./tns:act/tns:code"/>
-			<xs:field xpath="."/>
+			<xs:selector xpath="./tns:act"/>
+			<xs:field xpath="@code"/>
 		</xs:key>
 		<xs:key name="actTypeCodeKey">
-			<xs:selector xpath="./tns:actType/tns:code"/>
-			<xs:field xpath="."/>
+			<xs:selector xpath="./tns:actType"/>
+			<xs:field xpath="@code"/>
 		</xs:key>
-		<xs:key name="cigCodeCodeKey">
-			<xs:selector xpath="./tns:cigCode/tns:code"/>
-			<xs:field xpath="."/>
+		<xs:key name="balanceSheetItemCodeKey">
+			<xs:selector xpath="./tns:balanceSheetItem"/>
+			<xs:field xpath="@code"/>
 		</xs:key>
-		<xs:key name="cupCodeCodeKey">
-			<xs:selector xpath="./tns:cupCode/tns:code"/>
-			<xs:field xpath="."/>
+		<xs:key name="balanceSheetItemTypeCodeKey">
+			<xs:selector xpath="./tns:balanceSheetItemType"/>
+			<xs:field xpath="@code"/>
 		</xs:key>
-		<xs:key name="customSubdivisionCodeKey">
-			<xs:selector xpath="./tns:customSubdivision/tns:code"/>
-			<xs:field xpath="."/>
+		<xs:key name="chartOfAccountItemCodeKey">
+			<xs:selector xpath="./tns:chartOfAccountItem"/>
+			<xs:field xpath="@code"/>
 		</xs:key>
-		<xs:key name="customSubdivisionTypeCodeKey">
-			<xs:selector xpath="./tns:customSubdivisionType/tns:code"/>
-			<xs:field xpath="."/>
+		<xs:key name="chartOfAccountItemTypeCodeKey">
+			<xs:selector xpath="./tns:chartOfAccountItemType"/>
+			<xs:field xpath="@code"/>
 		</xs:key>
 		<xs:key name="cycleCodeKey">
-			<xs:selector xpath="./tns:cycle/tns:code"/>
-			<xs:field xpath="."/>
+			<xs:selector xpath="./tns:cycle"/>
+			<xs:field xpath="@code"/>
 		</xs:key>
 		<xs:key name="cycleTypeCodeKey">
-			<xs:selector xpath="./tns:cycleType/tns:code"/>
-			<xs:field xpath="."/>
+			<xs:selector xpath="./tns:cycleType"/>
+			<xs:field xpath="@code"/>
 		</xs:key>
-		<xs:key name="divisionCodeKey">
-			<xs:selector xpath="./tns:division/tns:code"/>
-			<xs:field xpath="."/>
+		<xs:key name="executiveManagementPlanItemCodeKey">
+			<xs:selector xpath="./tns:executiveManagementPlanItem"/>
+			<xs:field xpath="@code"/>
 		</xs:key>
-		<xs:key name="divisionTypeCodeKey">
-			<xs:selector xpath="./tns:divisionType/tns:code"/>
-			<xs:field xpath="."/>
-		</xs:key>
-		<xs:key name="officialSubdivisionCodeKey">
-			<xs:selector xpath="./tns:officialSubdivision/tns:code"/>
-			<xs:field xpath="."/>
-		</xs:key>
-		<xs:key name="officialSubdivisionTypeCodeKey">
-			<xs:selector xpath="./tns:officialSubdivisionType/tns:code"/>
-			<xs:field xpath="."/>
+		<xs:key name="executiveManagementPlanItemTypeCodeKey">
+			<xs:selector xpath="./tns:executiveManagementPlanItemType"/>
+			<xs:field xpath="@code"/>
 		</xs:key>
 		<xs:key name="subjectCodeKey">
-			<xs:selector xpath="./tns:subject/tns:code"/>
-			<xs:field xpath="."/>
+			<xs:selector xpath="./tns:subject"/>
+			<xs:field xpath="@code"/>
 		</xs:key>
 		<xs:key name="subjectTypeCodeKey">
-			<xs:selector xpath="./tns:subjectType/tns:code"/>
-			<xs:field xpath="."/>
+			<xs:selector xpath="./tns:subjectType"/>
+			<xs:field xpath="@code"/>
 		</xs:key>
 		<xs:key name="transactionCodeKey">
-			<xs:selector xpath="./tns:transaction/tns:code"/>
-			<xs:field xpath="."/>
+			<xs:selector xpath="./tns:transaction"/>
+			<xs:field xpath="@code"/>
 		</xs:key>
 		<xs:key name="transactionTypeCodeKey">
-			<xs:selector xpath="./tns:transactionType/tns:code"/>
-			<xs:field xpath="."/>
+			<xs:selector xpath="./tns:transactionType"/>
+			<xs:field xpath="@code"/>
 		</xs:key>
-		<!--------------------------------------------------------------------------------------------------------------
-		  -- Chiavi esterne
-		  ------------------------------------------------------------------------------------------------------------->
+		<xs:keyref name="actCycleActCodeKeyref" refer="tns:actCodeKey">
+			<xs:selector xpath="./tns:actCycle"/>
+			<xs:field xpath="@actCode"/>
+		</xs:keyref>
+		<xs:keyref name="actCycleCycleCodeKeyref" refer="tns:cycleCodeKey">
+			<xs:selector xpath="./tns:actCycle"/>
+			<xs:field xpath="@cycleCode"/>
+		</xs:keyref>
 		<xs:keyref name="actActTypeCodeKeyref" refer="tns:actTypeCodeKey">
-			<xs:selector xpath="./tns:act/tns:actTypeCode"/>
-			<xs:field xpath="."/>
+			<xs:selector xpath="./tns:act"/>
+			<xs:field xpath="@actTypeCode"/>
 		</xs:keyref>
-		<xs:keyref name="actCycleCodeKeyref" refer="tns:cycleCodeKey">
-			<xs:selector xpath="./tns:act/tns:cycleCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="balanceSheetItemCycleCodeKeyref" refer="tns:cycleCodeKey">
+			<xs:selector xpath="./tns:balanceSheetItem"/>
+			<xs:field xpath="@cycleCode"/>
 		</xs:keyref>
-		<xs:keyref name="customSubdivisionCustomSubdivisionTypeCodeKeyref" refer="tns:customSubdivisionTypeCodeKey">
-			<xs:selector xpath="./tns:customSubdivision/tns:customSubdivisionTypeCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="balanceSheetItemBalanceSheetItemCodeKeyref" refer="tns:balanceSheetItemCodeKey">
+			<xs:selector xpath="./tns:balanceSheetItem"/>
+			<xs:field xpath="@balanceSheetItemCode"/>
 		</xs:keyref>
-		<xs:keyref name="customSubdivisionCycleCodeKeyref" refer="tns:cycleCodeKey">
-			<xs:selector xpath="./tns:customSubdivision/tns:cycleCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="balanceSheetItemBalanceSheetItemTypeCodeKeyref" refer="tns:balanceSheetItemTypeCodeKey">
+			<xs:selector xpath="./tns:balanceSheetItem"/>
+			<xs:field xpath="@balanceSheetItemTypeCode"/>
 		</xs:keyref>
-		<xs:keyref name="customSubdivisionDivisionCodeKeyref" refer="tns:divisionCodeKey">
-			<xs:selector xpath="./tns:transaction/tns:divisionCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="chartOfAccountItemCycleCodeKeyref" refer="tns:cycleCodeKey">
+			<xs:selector xpath="./tns:chartOfAccountItem"/>
+			<xs:field xpath="@cycleCode"/>
 		</xs:keyref>
-		<xs:keyref name="customSubdivisionOfficialSubdivisionCodeKeyref" refer="tns:officialSubdivisionCodeKey">
-			<xs:selector xpath="./tns:transaction/tns:officialSubdivisionCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="chartOfAccountItemChartOfAccountItemCodeKeyref" refer="tns:chartOfAccountItemCodeKey">
+			<xs:selector xpath="./tns:chartOfAccountItem"/>
+			<xs:field xpath="@chartOfAccountItemCode"/>
 		</xs:keyref>
-		<xs:keyref name="customSubdivisionParentCustomSubdivisionCodeKeyref" refer="tns:customSubdivisionCodeKey">
-			<xs:selector xpath="./tns:customSubdivision/tns:parentCustomSubdivisionCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="chartOfAccountItemChartOfAccountItemTypeCodeKeyref" refer="tns:chartOfAccountItemTypeCodeKey">
+			<xs:selector xpath="./tns:chartOfAccountItem"/>
+			<xs:field xpath="@chartOfAccountItemTypeCode"/>
 		</xs:keyref>
 		<xs:keyref name="cycleCycleTypeCodeKeyref" refer="tns:cycleTypeCodeKey">
-			<xs:selector xpath="./tns:cycle/tns:cycleTypeCode"/>
-			<xs:field xpath="."/>
+			<xs:selector xpath="./tns:cycle"/>
+			<xs:field xpath="@actTypeCode"/>
 		</xs:keyref>
-		<xs:keyref name="divisionCycleCodeKeyref" refer="tns:cycleCodeKey">
-			<xs:selector xpath="./tns:division/tns:cycleCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="cycleSubjectCycleCodeKeyref" refer="tns:cycleCodeKey">
+			<xs:selector xpath="./tns:cycleSubject"/>
+			<xs:field xpath="@cycleCode"/>
 		</xs:keyref>
-		<xs:keyref name="divisionDivisionTypeCodeKeyref" refer="tns:divisionTypeCodeKey">
-			<xs:selector xpath="./tns:division/tns:divisionTypeCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="cycleSubjectSubjectCodeKeyref" refer="tns:subjectCodeKey">
+			<xs:selector xpath="./tns:cycleSubject"/>
+			<xs:field xpath="@subjectCode"/>
 		</xs:keyref>
-		<xs:keyref name="divisionParentDivisionCodeKeyref" refer="tns:divisionCodeKey">
-			<xs:selector xpath="./tns:division/tns:parentDivisionCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="executiveManagementPlanItemCycleCodeKeyref" refer="tns:cycleCodeKey">
+			<xs:selector xpath="./tns:executiveManagementPlanItem"/>
+			<xs:field xpath="@cycleCode"/>
 		</xs:keyref>
-		<xs:keyref name="officialSubdivisionCycleCodeKeyref" refer="tns:cycleCodeKey">
-			<xs:selector xpath="./tns:officialSubdivision/tns:cycleCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="executiveManagementPlanItemBalanceSheetItemCodeKeyref" refer="tns:balanceSheetItemCodeKey">
+			<xs:selector xpath="./tns:executiveManagementPlanItem"/>
+			<xs:field xpath="@balanceSheetItemCode"/>
 		</xs:keyref>
-		<xs:keyref name="officialSubdivisionOfficialSubdivisionTypeCodeKeyref" refer="tns:officialSubdivisionTypeCodeKey">
-			<xs:selector xpath="./tns:officialSubdivision/tns:officialSubdivisionTypeCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="executiveManagementPlanItemChartOfAccountItemCodeKeyref" refer="tns:chartOfAccountItemCodeKey">
+			<xs:selector xpath="./tns:executiveManagementPlanItem"/>
+			<xs:field xpath="@chartOfAccountItemCode"/>
 		</xs:keyref>
-		<xs:keyref name="officialSubdivisionParentOfficialSubdivisionCodeKeyref" refer="tns:officialSubdivisionCodeKey">
-			<xs:selector xpath="./tns:officialSubdivision/tns:parentOfficialSubdivisionCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="executiveManagementPlanItemExecutiveManagementPlanItemCodeKeyref" refer="tns:executiveManagementPlanItemCodeKey">
+			<xs:selector xpath="./tns:executiveManagementPlanItem"/>
+			<xs:field xpath="@executiveManagementPlanItemCode"/>
 		</xs:keyref>
-		<xs:keyref name="subjectCycleCodeKeyref" refer="tns:cycleCodeKey">
-			<xs:selector xpath="./tns:subject/tns:cycleCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="executiveManagementPlanItemExecutiveManagementPlanItemTypeCodeKeyref" refer="tns:executiveManagementPlanItemTypeCodeKey">
+			<xs:selector xpath="./tns:executiveManagementPlanItem"/>
+			<xs:field xpath="@executiveManagementPlanItemTypeCode"/>
 		</xs:keyref>
 		<xs:keyref name="subjectSubjectTypeCodeKeyref" refer="tns:subjectTypeCodeKey">
-			<xs:selector xpath="./tns:subject/tns:subjectTypeCode"/>
-			<xs:field xpath="."/>
+			<xs:selector xpath="./tns:subject"/>
+			<xs:field xpath="@subjectTypeCode"/>
 		</xs:keyref>
 		<xs:keyref name="transactionActCodeKeyref" refer="tns:actCodeKey">
-			<xs:selector xpath="./tns:transaction/tns:actCode"/>
-			<xs:field xpath="."/>
+			<xs:selector xpath="./tns:transaction"/>
+			<xs:field xpath="@actCode"/>
 		</xs:keyref>
-		<xs:keyref name="transactionCigCodeCodeKeyref" refer="tns:cigCodeCodeKey">
-			<xs:selector xpath="./tns:transaction/tns:cigCodeCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="transactionBalanceSheetItemCodeKeyref" refer="tns:balanceSheetItemCodeKey">
+			<xs:selector xpath="./tns:transaction"/>
+			<xs:field xpath="@balanceSheetItemCode"/>
 		</xs:keyref>
-		<xs:keyref name="transactionCupCodeCodeKeyref" refer="tns:cupCodeCodeKey">
-			<xs:selector xpath="./tns:transaction/tns:cupCodeCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="transactionChartOfAccountItemCodeKeyref" refer="tns:chartOfAccountItemCodeKey">
+			<xs:selector xpath="./tns:transaction"/>
+			<xs:field xpath="@chartOfAccountItemCode"/>
 		</xs:keyref>
-		<xs:keyref name="transactionCustomSubdivisionCodeKeyref" refer="tns:customSubdivisionCodeKey">
-			<xs:selector xpath="./tns:transaction/tns:customSubdivisionCode"/>
-			<xs:field xpath="."/>
+		<xs:keyref name="transactionExecutiveManagementPlanItemCodeKeyref" refer="tns:executiveManagementPlanItemCodeKey">
+			<xs:selector xpath="./tns:transaction"/>
+			<xs:field xpath="@executiveManagementPlanItemCode"/>
 		</xs:keyref>
 		<xs:keyref name="transactionCycleCodeKeyref" refer="tns:cycleCodeKey">
-			<xs:selector xpath="./tns:transaction/tns:cycleCode"/>
-			<xs:field xpath="."/>
-		</xs:keyref>
-		<xs:keyref name="transactionDivisionCodeKeyref" refer="tns:divisionCodeKey">
-			<xs:selector xpath="./tns:transaction/tns:divisionCode"/>
-			<xs:field xpath="."/>
-		</xs:keyref>
-		<xs:keyref name="transactionSubjectCodeKeyref" refer="tns:subjectCodeKey">
-			<xs:selector xpath="./tns:transaction/tns:subjectCode"/>
-			<xs:field xpath="."/>
+			<xs:selector xpath="./tns:transaction"/>
+			<xs:field xpath="@cycleCode"/>
 		</xs:keyref>
 		<xs:keyref name="transactionTransactionTypeCodeKeyref" refer="tns:transactionTypeCodeKey">
-			<xs:selector xpath="./tns:transaction/tns:transactionTypeCode"/>
-			<xs:field xpath="."/>
+			<xs:selector xpath="./tns:transaction"/>
+			<xs:field xpath="@transactionTypeCode"/>
 		</xs:keyref>
 	</xs:element>
 </xs:schema>
